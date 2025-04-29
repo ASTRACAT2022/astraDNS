@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "53:53/udp"
+      - "8080:8080"
+    volumes:
+      - ./backend/blocklist.txt:/app/blocklist.txt
+      - ./backend/analytics.db:/app/analytics.db
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:8080"
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
